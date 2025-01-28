@@ -59,3 +59,31 @@ class PhonemeWordMapper:
                     path.append(word)
                     self._dfs(phonemes, index + length, path, results)
                     path.pop()  # Backtrack
+
+# ----------------------------------
+# TEST CASES
+# ----------------------------------
+
+if __name__ == "__main__":
+    # Sample pronunciation dictionary
+    pronunciation_dict = {
+        "ABACUS": ["AE", "B", "AH", "K", "AH", "S"],
+        "BOOK": ["B", "UH", "K"],
+        "THEIR": ["DH", "EH", "R"],
+        "THERE": ["DH", "EH", "R"],
+        "TOMATO": ["T", "AH", "M", "AA", "T", "OW"],
+        "TOMATO": ["T", "AH", "M", "EY", "T", "OW"]
+    }
+
+    # Initialize the mapper
+    mapper = PhonemeWordMapper(pronunciation_dict)
+
+    # Example input sequence of phonemes
+    input_phonemes = ["DH", "EH", "R", "DH", "EH", "R"]
+
+    # Find valid word sequences
+    results = mapper.find_word_combos_with_pronunciation(input_phonemes)
+
+    # Print results
+    for i, result in enumerate(results):
+        print(f"Word Combination {i+1}: {result}")
