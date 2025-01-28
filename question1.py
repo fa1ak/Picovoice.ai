@@ -32,3 +32,12 @@ def prob_rain_more_than_n(p: Sequence[float], n: int) -> float:
     probability = 1 - norm.cdf(n, loc=mu, scale=sigma)
 
     return probability
+
+# ----------------------------------
+# TEST CASES
+# ----------------------------------
+
+if __name__ == "__main__":
+    test_p1 = [0.3] * 365  # Each day has a 30% probability of rain
+    test_n1 = 100
+    print(f"Test Case 1: {prob_rain_more_than_n(test_p1, test_n1):.4f}")
