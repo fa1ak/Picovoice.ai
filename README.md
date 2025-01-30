@@ -9,8 +9,7 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 - [Problem 3: Connectionist Temporal Classification (CTC) Loss](#problem-3-connectionist-temporal-classification-ctc-loss)
 - [Assumptions & Edge Cases](#assumptions--edge-cases)
 - [Installation & Usage](#installation--usage)
-- [Performance Optimizations](#performance-optimizations)
-- [Final Thoughts](#final-thoughts)
+- [Personal Reflection](#personal-reflection)
 
 ---
 
@@ -110,7 +109,7 @@ python ctc_loss.py
 
 ---
 
-## **Personal Reflection**
+## Personal Reflection
 When I first received this challenge, it seemed quite daunting—from probability-based computations to phoneme mapping and complex CTC loss optimization. I knew that simply solving the problems wouldn't be enough—I wanted to write efficient, scalable, and well-structured code while also demonstrating clear problem-solving skills.
 
 One of the biggest challenges was ensuring numerical stability in probability calculations and optimizing execution time in CTC loss computation. Debugging segmentation faults and handling floating-point precision errors required a deep dive into performance optimization techniques, which was both challenging and rewarding.
