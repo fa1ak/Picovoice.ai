@@ -82,7 +82,7 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
 if __name__ == "__main__":
     from time import time
 
-    T, C = 10, 5 
+    T, C = 10, 5
     log_probs = np.log(softmax(np.random.rand(T, C), axis=1))  # Log probabilities
     targets = np.array([1, 2])  # Target sequence
     input_lengths = np.array([T])
