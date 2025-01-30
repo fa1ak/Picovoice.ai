@@ -1,8 +1,7 @@
 # Picovoice.ai
-Solutions for the Picovoice.ai coding screening test. Implemented in Python.
 
 ## Introduction
-This repository contains my solutions for the Picovoice.ai coding screening test. Each solution is thoughtfully implemented, thoroughly tested, and optimized for performance.
+This repository contains my solutions for the Picovoice.ai coding screening test. Each solution is thoughtfully implemented in Python, thoroughly tested, and optimized for performance.
 
 ## 📝 Table of Contents
 - [Problem 1: Rain Probability](#problem-1-rain-probability)
