@@ -1,5 +1,5 @@
 import numpy as np
-
+from scipy.special import softmax
 
 def ctc_forward(log_probs, targets, input_lengths, target_lengths):
     """
@@ -87,7 +87,7 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
 # --------------------------
 if __name__ == "__main__":
     T, C = 5, 4  # Example with 5 time steps, 4 classes
-    log_probs = np.log(np.random.rand(T, C))  # Log probabilities
+    log_probs = np.log(softmax(np.random.rand(T, C), axis=1))  # Log probabilities
     targets = np.array([1, 2])  # Target sequence
     input_lengths = np.array([T])
     target_lengths = np.array([len(targets)])
