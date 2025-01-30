@@ -101,7 +101,7 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 
 ---
 
-## ** Installation & Usage**
+## **Installation & Usage**
 ```bash
 pip install -r requirements.txt
 python rain_probability.py
