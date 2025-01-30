@@ -27,18 +27,14 @@ def ctc_forward(log_probs, targets, input_lengths, target_lengths):
     alpha[0, 1] = log_probs[0, extended_targets[1]]
 
     for t in range(1, T):
-        for i in range(len(extended_targets)):
-            alpha[t, i] = log_probs[t, extended_targets[i]] + np.logaddexp(
-                alpha[t - 1, i],
-                alpha[t - 1, i - 1] if i > 0 else -np.inf
-            )
-            if i > 1 and extended_targets[i] != blank and extended_targets[i] != extended_targets[i - 2]:
-                alpha[t, i] = np.logaddexp(alpha[t, i], alpha[t - 1, i - 2])
+        prev_alpha = alpha[t - 1]
+        alpha[t] = log_probs[t, extended_targets] + np.logaddexp.reduce(
+            [prev_alpha, np.roll(prev_alpha, 1), np.roll(prev_alpha, 2)], axis=0)
 
+        # Compute loss
     loss = -np.logaddexp(alpha[-1, -1], alpha[-1, -2])
 
     return loss, alpha
-
 
 def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
     """
@@ -64,15 +60,11 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
     beta[T - 1, -2] = log_probs[T - 1, extended_targets[-2]]
 
     for t in range(T - 2, -1, -1):
-        for i in range(len(extended_targets)):
-            beta[t, i] = log_probs[t, extended_targets[i]] + np.logaddexp(
-                beta[t + 1, i],
-                beta[t + 1, i + 1] if i < len(extended_targets) - 1 else -np.inf
-            )
-            if i < len(extended_targets) - 2 and extended_targets[i] != blank and extended_targets[i] != \
-                    extended_targets[i + 2]:
-                beta[t, i] = np.logaddexp(beta[t, i], beta[t + 1, i + 2])
+        next_beta = beta[t + 1]
+        beta[t] = log_probs[t, extended_targets] + np.logaddexp.reduce(
+            [next_beta, np.roll(next_beta, -1), np.roll(next_beta, -2)], axis=0)
 
+        # Compute gradients
     posterior_probs = np.exp(alpha + beta - np.logaddexp(alpha[-1, -1], alpha[-1, -2]))
     grad = np.zeros_like(log_probs)
 
@@ -86,11 +78,16 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
 # TEST CASE
 # --------------------------
 if __name__ == "__main__":
-    T, C = 5, 4  # Example with 5 time steps, 4 classes
+    from time import time
+
+    T, C = 15, 4  # Example with 5 time steps, 4 classes
     log_probs = np.log(softmax(np.random.rand(T, C), axis=1))  # Log probabilities
     targets = np.array([1, 2])  # Target sequence
     input_lengths = np.array([T])
     target_lengths = np.array([len(targets)])
+
+    # Measuring execution time
+    start_time = time()
 
     # Compute forward loss
     loss, alpha = ctc_forward(log_probs, targets, input_lengths, target_lengths)
@@ -99,3 +96,5 @@ if __name__ == "__main__":
     # Compute gradients
     grad = ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha)
     print("Gradients:\n", grad)
+
+    print(f"Execution Time: {time() - start_time:.4f} seconds")
