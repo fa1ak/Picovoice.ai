@@ -81,3 +81,21 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
             grad[t, extended_targets[i]] -= posterior_probs[t, i]
 
     return grad
+
+# --------------------------
+# TEST CASE
+# --------------------------
+if __name__ == "__main__":
+    T, C = 5, 4  # Example with 5 time steps, 4 classes
+    log_probs = np.log(np.random.rand(T, C))  # Log probabilities
+    targets = np.array([1, 2])  # Target sequence
+    input_lengths = np.array([T])
+    target_lengths = np.array([len(targets)])
+
+    # Compute forward loss
+    loss, alpha = ctc_forward(log_probs, targets, input_lengths, target_lengths)
+    print(f"CTC Loss: {loss:.4f}")
+
+    # Compute gradients
+    grad = ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha)
+    print("Gradients:\n", grad)
