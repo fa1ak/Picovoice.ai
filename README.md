@@ -1,5 +1,5 @@
 # Picovoice.ai
-Solutions for the Picovoice.ai coding screening test. Implemented in Python with well-documented assumptions and efficient approaches.
+Solutions for the Picovoice.ai coding screening test. Implemented in Python.
 
 ## Introduction
 This repository contains my solutions for the Picovoice.ai coding screening test. Each solution is thoughtfully implemented, thoroughly tested, and optimized for performance.
