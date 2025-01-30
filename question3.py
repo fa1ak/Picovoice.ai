@@ -20,8 +20,9 @@ def ctc_forward(log_probs, targets, input_lengths, target_lengths):
 
     extended_targets = np.zeros(2 * L + 1, dtype=np.int32)
     extended_targets[1::2] = targets
-    blank = 0
+    blank = 0  # Assuming 0 is the blank label
 
+    # Initializing alpha - forward probabilities
     alpha = np.full((T, len(extended_targets)), -np.inf)
     alpha[0, 0] = log_probs[0, blank]
     alpha[0, 1] = log_probs[0, extended_targets[1]]
@@ -55,6 +56,7 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
     extended_targets[1::2] = targets
     blank = 0
 
+    # Initializing beta - backward probabilities
     beta = np.full((T, len(extended_targets)), -np.inf)
     beta[T - 1, -1] = log_probs[T - 1, blank]
     beta[T - 1, -2] = log_probs[T - 1, extended_targets[-2]]
@@ -80,7 +82,7 @@ def ctc_backward(log_probs, targets, input_lengths, target_lengths, alpha):
 if __name__ == "__main__":
     from time import time
 
-    T, C = 15, 4  # Example with 5 time steps, 4 classes
+    T, C = 10, 5 
     log_probs = np.log(softmax(np.random.rand(T, C), axis=1))  # Log probabilities
     targets = np.array([1, 2])  # Target sequence
     input_lengths = np.array([T])
@@ -89,7 +91,6 @@ if __name__ == "__main__":
     # Measuring execution time
     start_time = time()
 
-    # Compute forward loss
     loss, alpha = ctc_forward(log_probs, targets, input_lengths, target_lengths)
     print(f"CTC Loss: {loss:.4f}")
 
