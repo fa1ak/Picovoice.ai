@@ -102,9 +102,9 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 ## **Installation & Usage**
 ```bash
 pip install -r requirements.txt
-python rain_probability.py
-python phoneme_word_mapping.py
-python ctc_loss.py
+python src/rain_probability.py
+python src/phoneme_word_mapping.py
+python src/ctc_loss.py
 ```
 
 ---
