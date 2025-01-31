@@ -58,15 +58,28 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 **Goal**: Implement CTC loss and backpropagation as per [Graves et al.](https://dl.acm.org/doi/abs/10.1145/1143844.1143891).
 
 ### **Approach**
-1. **Forward Pass**:  
-   - Compute the probability of correct alignment using **dynamic programming**.
-   - Use **log-add-exp trick** to avoid numerical underflow.
-2. **Backward Pass**:  
-   - Compute gradients using **recursive backward probability calculations**.
-   - Use **log probabilities** to prevent numerical instability.
-3. **Optimization**:  
-   - **Vectorized log-addition** using NumPy instead of loops.
-   - Reduced execution time from **5s to 0.0005s**.
+1. **Input Validation & Preprocessing**
+   - Introduced a `check_inputs` function to **validate input shapes and values**.
+   - Implemented **`extend_targets`** to add blank labels between phonemes.
+   
+2. **Efficient Forward-Backward Computation**
+   - **Forward Pass (`alpha` calculation)**
+     - Used **log-space computations** to prevent numerical underflow.
+     - Optimized with **vectorized NumPy operations** instead of nested loops.
+   - **Backward Pass (`beta` calculation)**
+     - Similar optimization using log-space operations.
+
+3. **Batch Processing Support**
+   - Implemented **batched forward and backward passes**.
+   - Allowed **different reduction methods** (`mean`, `sum`, or `none`).
+
+4. **Gradient Calculation**
+   - Computed gradients using **log-add-exp trick** for numerical stability.
+   - Ensured proper probability mass distribution.
+
+5. **Error Handling & Robustness**
+   - **Edge cases**: Short sequences, invalid dimensions, and incorrect target alignments.
+   - Exception handling for **NaN or infinite values**.
 
 ### Challenges & Solutions:
 - **Roadblock:** Initial implementation was **too slow**.
@@ -78,11 +91,9 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 | Initial Code   | 5.23 seconds  |
 | Optimized Code | 0.0005 seconds |
 
-### Complexity Analysis:
-- **Forward Pass:** `O(T * L)`
-- **Backward Pass:** `O(T * L)`
 
-![Screenshot 2025-01-30 at 01 41 14](https://github.com/user-attachments/assets/f4ef88c5-d941-4867-b2cc-61a429194595)
+<img width="574" alt="Screenshot 2025-01-30 at 22 21 48" src="https://github.com/user-attachments/assets/1e4d4e3e-74b8-49e5-986e-9bff9529059f" />
+
 
 ---
 
@@ -90,7 +101,7 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 ### Assumptions:
 - For **Problem 1**, probabilities are **independent** for each day.
 - For **Problem 2**, phoneme sequences are always **valid**.
-- For **Problem 3**, `log_probs` are **properly normalized**.
+- For **Problem 3**, CTC Loss assumes input sequences are sufficiently long to align with targets.
 
 ### Edge Cases Considered:
 - **Rain Probability:** What if `n > 365`?  
