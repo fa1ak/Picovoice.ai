@@ -3,10 +3,12 @@
 ## Introduction
 This repository contains my solutions for the Picovoice.ai coding screening test. Each solution is thoughtfully implemented in Python, thoroughly tested, and optimized for performance.
 
-## 📝 Table of Contents
+## Table of Contents
+
 - [Problem 1: Rain Probability](#problem-1-rain-probability)
 - [Problem 2: Phoneme Word Mapping](#problem-2-phoneme-word-mapping)
 - [Problem 3: Connectionist Temporal Classification (CTC) Loss](#problem-3-connectionist-temporal-classification-ctc-loss)
+- *Bonus question* [Problem 4: Most Frequent Words in Shakespeare’s Works](#problem-4-most-frequent-words-in-shakespeares-works) 
 - [Assumptions & Edge Cases](#assumptions--edge-cases)
 - [Installation & Usage](#installation--usage)
 - [Personal Reflection](#personal-reflection)
@@ -97,25 +99,52 @@ This repository contains my solutions for the Picovoice.ai coding screening test
 
 ---
 
-## **Assumptions & Edge Cases**
-### Assumptions:
-- For **Problem 1**, probabilities are **independent** for each day.
-- For **Problem 2**, phoneme sequences are always **valid**.
-- For **Problem 3**, CTC Loss assumes input sequences are sufficiently long to align with targets.
+## **Problem 4: Most Frequent Words in Shakespeare’s Works**
 
-### Edge Cases Considered:
-- **Rain Probability:** What if `n > 365`?  
-- **Phoneme Matching:** What if a phoneme has no word match?  
-- **CTC Loss:** Tested with `T >> L` to handle sequence mismatches.
+While I wasn’t initially asked to implement all 4 problems, I took it on as an additional challenge.
+
+### **Problem Statement**
+The goal is to **find the `n` most frequent words** in the **TensorFlow Shakespeare dataset** https://storage.googleapis.com/download.tensorflow.org/data/shakespeare.txt.  
+## **Problem 4: Most Frequent Words in Shakespeare’s Works**
+### **Goal**: Identify the `n` most frequent words in Shakespeare’s dataset (`shakespeare.txt`).
+
+### **Approach**
+1. **Preprocessing**: Convert all words to lowercase and remove punctuation for consistent word matching.
+2. **Efficient Word Counting**: Store word frequencies in a **Word Frequency Array (`WordFreq`)**.
+3. **Sorting**: Use **QuickSort (`qsort`)** to sort words in **descending order** of frequency.
+4. **Top `n` Extraction**: Display the `n` most frequent words.
+
+### **Challenges & Solutions**
+- **Roadblock**: Handling large text efficiently while maintaining memory constraints.
+- **Fix**: Used **dynamic allocation (`malloc`)** and limited storage to `MAX_WORDS` for optimized memory usage.
+  
+<img width="460" alt="Screenshot 2025-01-30 at 23 16 28" src="https://github.com/user-attachments/assets/164a2bda-9065-4e41-9536-ad060dc562ea" />
 
 ---
 
-## **Installation & Usage**
+## **Assumptions & Edge Cases**
+### **Assumptions:**
+- **Problem 1 (Rain Probability):** Daily rain probabilities are **independent** events.
+- **Problem 2 (Phoneme Matching):** The input phoneme sequence is always **valid**.
+- **Problem 3 (CTC Loss):** Input sequences are **long enough** to align with the target sequence.
+- **Problem 4 (Word Frequency Analysis):** The dataset (`shakespeare.txt`) is **properly formatted** and **large word counts are manageable**.
+
+### **Edge Cases Considered:**
+- **Rain Probability:** What if `n > 365`? The probability should return **0**.
+- **Phoneme Matching:** What if a phoneme has **no corresponding word**? It should return **an empty result**.
+- **CTC Loss:** Tested with `T >> L` to ensure **sequence mismatch handling**.
+- **Word Frequency Analysis:** What if `n` is **greater than the number of unique words**? The program should **return all words** without errors.
+
+---
+
+## **📌 Installation & Usage**
 ```bash
 pip install -r requirements.txt
 python src/rain_probability.py
 python src/phoneme_word_mapping.py
 python src/ctc_loss.py
+gcc -o src/word_freq src/word_freq.c
+./src/word_freq
 ```
 
 ---
@@ -125,7 +154,7 @@ When I first received this challenge, it seemed quite daunting—from probabilit
 
 One of the biggest challenges was ensuring numerical stability in probability calculations and optimizing execution time in CTC loss computation. Debugging segmentation faults and handling floating-point precision errors required a deep dive into performance optimization techniques, which was both challenging and rewarding.
 
-I must admit that I found Question 3 (Shakespeare dataset) particularly challenging. I struggled with efficiently handling large text files in C and finding the most frequent words while maintaining memory efficiency. I would love to revisit that problem and refine my approach.
+While I was asked to only perform 3 questions, I decided to take it on as an additional challenge and solved the Most Frequent Words in Shakespeare’s Works problem.
 
 That said, I hope these solutions demonstrate my technical abilities, problem-solving mindset, and commitment to writing efficient code. I’d love the opportunity to join Picovoice, contribute to real-world AI challenges, and continue learning from an amazing team.
 
