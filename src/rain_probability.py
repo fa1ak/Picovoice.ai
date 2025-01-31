@@ -10,25 +10,19 @@ Write a function that accepts p (probabilities of rain on a given calendar day) 
 and returns the possibility of raining at least n days.
 """
 
+
 def prob_rain_more_than_n(p: Sequence[float], n: int) -> float:
     """
     Computes the probability of raining at least 'n' days in a year given daily rain probabilities.
-
-    Parameters:
-    p (Sequence[float]): A list of 365 probabilities representing the chance of rain on each day.
-    n (int): The threshold number of rainy days.
-
-    Returns:
-    float: Probability of raining at least 'n' days.
     """
-    # Step 1: Compute expected rainy days i.e. mean.
+    # Compute expected rainy days i.e. mean.
     mu = sum(p)
 
-    # Step 2: Compute variance.
+    # Compute variance.
     sigma_sq = sum(pi * (1 - pi) for pi in p)
     sigma = sigma_sq ** 0.5  # Standard deviation
 
-    # Step 3: Use normal approximation to get probability P(X ≥ n).
+    # Use normal approximation to get probability P(X ≥ n).
     probability = 1 - norm.cdf(n, loc=mu, scale=sigma)
 
     return probability

@@ -74,12 +74,18 @@ if __name__ == "__main__":
         "TOMATO": ["T", "AH", "M", "AA", "T", "OW"],
         "TOMATO": ["T", "AH", "M", "EY", "T", "OW"]
     }
+    data = [{
+        "ABACUS": []
+    },
+        {
+
+        }]
 
     # Initialize the mapper
     mapper = PhonemeWordMapper(pronunciation_dict)
 
     # Example input sequence of phonemes
-    input_phonemes = ["DH", "EH", "R", "DH", "EH", "R"]
+    input_phonemes = ["T", "AH", "M", "EY", "T", "OW"]
 
     # Find valid word sequences
     results = mapper.find_word_combos_with_pronunciation(input_phonemes)
